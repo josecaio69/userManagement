@@ -1,5 +1,6 @@
 package com.userHub.peopleManagement.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -9,11 +10,11 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "individual_person")
 public class IndividualPerson extends Person {
-    @NotBlank
+    @Column
     private String cpf;
-    @NotBlank
+    @Column(name = "birth_date")
     private LocalDate birthDate;
-    @NotBlank
+    @Column
     private String rg;
 
     public @NotBlank String getCpf() {

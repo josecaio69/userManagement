@@ -2,7 +2,6 @@ package com.userHub.peopleManagement.model;
 
 import jakarta.persistence.*;
 
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "persons")
@@ -11,9 +10,11 @@ public abstract class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
+    @Column
     private String name;
+    @Column
     private String email;
+    @Column
     private String phone;
 
     public Long getId() {

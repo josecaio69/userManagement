@@ -1,5 +1,6 @@
 package com.userHub.peopleManagement.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -9,34 +10,34 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "legal_person")
 public class LegalPerson extends Person {
-    @NotBlank
+    @Column
     private String cnpj;
-    @NotBlank
+    @Column(name = "company_name")
     private String companyName;
-    @NotBlank
+    @Column(name = "foundation_date")
     private LocalDate foundationDate;
 
-    public @NotBlank String getCnpj() {
+    public String getCnpj() {
         return cnpj;
     }
 
-    public void setCnpj(@NotBlank String cnpj) {
+    public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }
 
-    public @NotBlank String getCompanyName() {
+    public String getCompanyName() {
         return companyName;
     }
 
-    public void setCompanyName(@NotBlank String companyName) {
+    public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
-    public @NotBlank LocalDate getFoundationDate() {
+    public LocalDate getFoundationDate() {
         return foundationDate;
     }
 
-    public void setFoundationDate(@NotBlank LocalDate foundationDate) {
+    public void setFoundationDate(LocalDate foundationDate) {
         this.foundationDate = foundationDate;
     }
 }
