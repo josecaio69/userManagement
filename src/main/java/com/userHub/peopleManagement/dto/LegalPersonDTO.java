@@ -5,11 +5,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
-public class LegalPersonDTO {
-    @NotBlank
-    private Long id;
-    @NotBlank
-    private String name;
+public class LegalPersonDTO extends PersonDTO{
+
     @NotBlank
     @Email
     private String email;
@@ -22,59 +19,43 @@ public class LegalPersonDTO {
     @NotBlank
     private LocalDate foundationDate;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
+    public @NotBlank @Email String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@NotBlank @Email String email) {
         this.email = email;
     }
 
-    public String getPhone() {
+    public @NotBlank String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(@NotBlank String phone) {
         this.phone = phone;
     }
 
-    public String getCnpj() {
+    public @NotBlank String getCnpj() {
         return cnpj;
     }
 
-    public void setCnpj(String cnpj) {
+    public void setCnpj(@NotBlank String cnpj) {
         this.cnpj = cnpj;
     }
 
-    public String getCompanyName() {
+    public @NotBlank String getCompanyName() {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
+    public void setCompanyName(@NotBlank String companyName) {
         this.companyName = companyName;
     }
 
-    public LocalDate getFoundationDate() {
+    public @NotBlank LocalDate getFoundationDate() {
         return foundationDate;
     }
 
-    public void setFoundationDate(LocalDate foundationDate) {
+    public void setFoundationDate(@NotBlank LocalDate foundationDate) {
         this.foundationDate = foundationDate;
     }
 }
