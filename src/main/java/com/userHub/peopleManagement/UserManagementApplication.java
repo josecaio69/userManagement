@@ -1,4 +1,4 @@
-package com.userHub.userManagement;
+package com.userHub.peopleManagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
