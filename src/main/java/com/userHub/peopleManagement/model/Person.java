@@ -2,9 +2,9 @@ package com.userHub.peopleManagement.model;
 
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "persons")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Person {
 
     @Id
