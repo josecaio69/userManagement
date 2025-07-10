@@ -3,6 +3,7 @@ package com.userHub.peopleManagement.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.time.LocalDate;
 
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @Table(name = "legal_person")
 public class LegalPerson extends Person {
     @Column
+    @CNPJ
     private String cnpj;
     @Column(name = "company_name")
     private String companyName;
