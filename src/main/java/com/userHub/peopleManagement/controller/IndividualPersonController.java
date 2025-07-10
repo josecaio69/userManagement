@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/person")
+@RequestMapping(value = "/individualPerson")
 public class IndividualPersonController {
     private final PersonMapper personMapper;
     private final IndividualPersonService personService;
@@ -23,7 +23,7 @@ public class IndividualPersonController {
         this.personService = personService;
     }
 
-    @PostMapping("/individualPerson")
+    @PostMapping
     public IndividualPersonDTO createNewIndividualPerson(@RequestBody IndividualPersonDTO personDTO){
         return this.personMapper.individualPersonToDto((IndividualPerson) personService.createIndividualPerson(personDTO));
     }
