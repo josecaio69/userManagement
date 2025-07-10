@@ -3,6 +3,8 @@ package com.userHub.peopleManagement.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 @Table(name = "individual_person")
 public class IndividualPerson extends Person {
     @Column
+    @CPF
     private String cpf;
     @Column(name = "birth_date")
     private LocalDate birthDate;
