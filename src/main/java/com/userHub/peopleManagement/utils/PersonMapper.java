@@ -10,8 +10,7 @@ import org.mapstruct.Mapper;
 public interface PersonMapper {
 
     IndividualPersonDTO individualPersonToDto(IndividualPerson pessoa);
-    LegalPersonDTO legalPersonPersonToDto(LegalPerson pessoa);
-
     IndividualPerson individualPersonToEntity(IndividualPersonDTO dto);
     LegalPerson legalPersonToEntity(LegalPersonDTO dto);
+    LegalPersonDTO legalPersonToDto(LegalPerson person);
 }

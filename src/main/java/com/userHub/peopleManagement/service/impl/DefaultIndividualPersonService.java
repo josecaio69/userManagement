@@ -34,7 +34,6 @@ public class DefaultIndividualPersonService implements IndividualPersonService {
         Optional<IndividualPerson> individualPerson = getIndividualPersonRepository().findById(id);
 
         return individualPerson.orElse(null);
-
     }
 
     @Override
@@ -51,7 +50,7 @@ public class DefaultIndividualPersonService implements IndividualPersonService {
 
     @Override
     public void removeIndividualPerson(Long id) {
-       getIndividualPersonRepository().deleteById(id);
+        getIndividualPersonRepository().deleteById(id);
     }
 
     public IndividualPersonRepository getIndividualPersonRepository() {
