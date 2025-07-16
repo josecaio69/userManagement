@@ -8,11 +8,15 @@ import com.userHub.peopleManagement.model.Person;
 import com.userHub.peopleManagement.service.IndividualPersonService;
 import com.userHub.peopleManagement.utils.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class DefaultIndividualPersonService implements IndividualPersonService {
     private final IndividualPersonRepository individualPersonRepository;
     private final PersonMapper personMapper;
@@ -24,6 +28,7 @@ public class DefaultIndividualPersonService implements IndividualPersonService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Person createIndividualPerson(IndividualPersonDTO person) {
         IndividualPerson personModel = getPersonMapper().individualPersonToEntity(person);
         return getIndividualPersonRepository().save(personModel);
