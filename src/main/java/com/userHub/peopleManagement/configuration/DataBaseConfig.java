@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DataBaseConfig {
-    public static final String DRIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
+    private static final String DRIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
+
     @Value("${spring.datasource.url}")
     private String urlDataBase;
     @Value("${spring.datasource.username}")
@@ -20,12 +21,6 @@ public class DataBaseConfig {
 
     @Bean
     public HikariDataSource dataSource() {
-//        try {
-//            // Força o registro do driver manualmente
-//            Class.forName(DRIVER_CLASS_NAME);
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException("Driver MySQL não encontrado no classpath", e);
-//        }
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(getUrlDataBase());
         config.setUsername(getUserName());
@@ -34,7 +29,7 @@ public class DataBaseConfig {
 
         this.performanceOptimization(config);
 
-        // Configurações do pool
+        // config do pool
         config.setMaximumPoolSize(20);
         config.setConnectionTimeout(30000);
         config.setIdleTimeout(600000);
@@ -49,6 +44,7 @@ public class DataBaseConfig {
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         config.addDataSourceProperty("useServerPrepStmts", "true");
+        config.addDataSourceProperty("allowPublicKeyRetrieval", "true");
     }
 
     public String getUrlDataBase() {

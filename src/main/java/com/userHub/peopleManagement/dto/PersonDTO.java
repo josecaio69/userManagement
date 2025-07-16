@@ -1,9 +1,14 @@
 package com.userHub.peopleManagement.dto;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import javax.validation.constraints.NotBlank;
 
 public abstract class PersonDTO {
-    @NotBlank
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     private String name;
