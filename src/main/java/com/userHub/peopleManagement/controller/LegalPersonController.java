@@ -22,11 +22,11 @@ public class LegalPersonController {
 
     @PostMapping
     public LegalPersonDTO createNewIndividualPerson(@RequestBody LegalPersonDTO personDTO){
-        return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.createLegalPerson(personDTO));
+        return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.createOrUpdateLegalPerson(personDTO));
     }
 
-    @GetMapping(value = "/cnpj/{cnpj}")
-    public LegalPersonDTO getLegalPersonByCpf(@PathVariable String cnpj) {
+    @GetMapping(value = "/cnpj")
+    public LegalPersonDTO getLegalPersonByCnpj(@RequestParam String cnpj) {
         return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.searchLegalPersonByCnpj(cnpj));
     }
 
@@ -37,7 +37,7 @@ public class LegalPersonController {
 
     @PutMapping
     public LegalPersonDTO updateLegalPerson(@RequestBody LegalPersonDTO personDTO){
-        return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.updateLegalPerson(personDTO));
+        return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.createOrUpdateLegalPerson(personDTO));
     }
 
     @DeleteMapping

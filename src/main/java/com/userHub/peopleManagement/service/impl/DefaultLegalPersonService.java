@@ -6,14 +6,16 @@ import com.userHub.peopleManagement.model.LegalPerson;
 import com.userHub.peopleManagement.model.Person;
 import com.userHub.peopleManagement.service.LegalPersonService;
 import com.userHub.peopleManagement.utils.PersonMapper;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class DefaultLegalPersonService implements LegalPersonService {
-    private  final LegalPersonRepository legalPersonRepository;
+    private final LegalPersonRepository legalPersonRepository;
     private final PersonMapper personMapper;
 
     @Autowired
@@ -23,14 +25,19 @@ public class DefaultLegalPersonService implements LegalPersonService {
     }
 
     @Override
-    public Person createLegalPerson(LegalPersonDTO person) {
-        LegalPerson personModel = getPersonMapper().legalPersonToEntity(person);
-        return getLegalPersonRepository().save(personModel);
-    }
+    public Person createOrUpdateLegalPerson(LegalPersonDTO person) {
+        LegalPerson newLegalPerson = getPersonMapper().legalPersonToEntity(person);
+        LegalPerson legalPersonToUpdate = Optional.ofNullable(
+                        (LegalPerson) this.searchLegalPersonByCnpj(
+                                Optional.ofNullable(person.getCnpj())
+                                        .orElse("")))
+                .orElse(new LegalPerson());
 
-    @Override
-    public Person updateLegalPerson(LegalPersonDTO person) {
-        return this.createLegalPerson(person);
+        if (Objects.nonNull(legalPersonToUpdate.getId())) {
+            newLegalPerson.setId(legalPersonToUpdate.getId());
+        }
+        
+        return getLegalPersonRepository().save(newLegalPerson);
     }
 
     @Override

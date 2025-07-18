@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import org.hibernate.validator.constraints.br.CNPJ;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -16,6 +17,7 @@ public class LegalPerson extends Person {
     @Column(name = "company_name")
     private String companyName;
     @Column(name = "foundation_date")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate foundationDate;
 
     public String getCnpj() {
