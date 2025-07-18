@@ -42,7 +42,7 @@ public class IndividualPersonController {
     }
 
     @DeleteMapping
-    public void updateIndividualPerson(@RequestBody Long id){
+    public void deleteIndividualPerson(@RequestBody Long id){
         this.personService.removeIndividualPerson(id);
     }
 }
