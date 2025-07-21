@@ -6,10 +6,7 @@ import com.userHub.peopleManagement.service.LegalPersonService;
 import com.userHub.peopleManagement.service.impl.DefaultLegalPersonService;
 import com.userHub.peopleManagement.utils.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/legalPerson")
@@ -25,6 +22,26 @@ public class LegalPersonController {
 
     @PostMapping
     public LegalPersonDTO createNewIndividualPerson(@RequestBody LegalPersonDTO personDTO){
-        return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.createLegalPerson(personDTO));
+        return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.createOrUpdateLegalPerson(personDTO));
+    }
+
+    @GetMapping(value = "/cnpj")
+    public LegalPersonDTO getLegalPersonByCnpj(@RequestParam String cnpj) {
+        return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.searchLegalPersonByCnpj(cnpj));
+    }
+
+    @GetMapping(value = "/id/{id}")
+    public LegalPersonDTO getLegalPersonById(@PathVariable Long id) {
+        return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.searchLegalPersonById(id));
+    }
+
+    @PutMapping
+    public LegalPersonDTO updateLegalPerson(@RequestBody LegalPersonDTO personDTO){
+        return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.createOrUpdateLegalPerson(personDTO));
+    }
+
+    @DeleteMapping
+    public void deleteLegalPerson(@RequestBody Long id){
+        this.legalPersonService.removeLegalPersonPersonById(id);
     }
 }

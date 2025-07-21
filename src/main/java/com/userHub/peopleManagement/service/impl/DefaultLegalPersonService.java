@@ -1,19 +1,24 @@
 package com.userHub.peopleManagement.service.impl;
 
+import com.userHub.peopleManagement.Exception.PersonNotFoundException;
 import com.userHub.peopleManagement.dao.LegalPersonRepository;
 import com.userHub.peopleManagement.dto.LegalPersonDTO;
 import com.userHub.peopleManagement.model.LegalPerson;
 import com.userHub.peopleManagement.model.Person;
 import com.userHub.peopleManagement.service.LegalPersonService;
 import com.userHub.peopleManagement.utils.PersonMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class DefaultLegalPersonService implements LegalPersonService {
-    private  final LegalPersonRepository legalPersonRepository;
+    private static final String CNPJ = "CNPJ";
+
+    private final LegalPersonRepository legalPersonRepository;
     private final PersonMapper personMapper;
 
     @Autowired
@@ -23,28 +28,27 @@ public class DefaultLegalPersonService implements LegalPersonService {
     }
 
     @Override
-    public Person createLegalPerson(LegalPersonDTO person) {
-        LegalPerson personModel = getPersonMapper().legalPersonToEntity(person);
-        return getLegalPersonRepository().save(personModel);
-    }
+    public Person createOrUpdateLegalPerson(LegalPersonDTO person) {
+        LegalPerson newLegalPerson = getPersonMapper().legalPersonToEntity(person);
+        Optional<LegalPerson> legalPersonToUpdate = getLegalPersonRepository().findByCnpj(Optional.ofNullable(person.getCnpj()).orElse(""));
 
-    @Override
-    public Person updateLegalPerson(LegalPersonDTO person) {
-        return this.createLegalPerson(person);
+        legalPersonToUpdate.ifPresent(legalPerson -> newLegalPerson.setId(legalPerson.getId()));
+
+        return getLegalPersonRepository().save(newLegalPerson);
     }
 
     @Override
     public Person searchLegalPersonById(Long id) {
-        Optional<LegalPerson> legalPerson = getLegalPersonRepository().findById(id);
-
-        return legalPerson.orElse(null);
+        return getLegalPersonRepository()
+                .findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
     @Override
     public Person searchLegalPersonByCnpj(String cnpj) {
-        Optional<LegalPerson> legalPerson = getLegalPersonRepository().findByCnpj(cnpj);
-
-        return legalPerson.orElse(null);
+        return getLegalPersonRepository()
+                .findByCnpj(cnpj)
+                .orElseThrow(() -> new PersonNotFoundException(CNPJ, cnpj));
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.userHub.peopleManagement.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -14,6 +16,7 @@ public class IndividualPersonDTO  extends PersonDTO{
     @NotBlank
     private String cpf;
     @NotBlank
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
     @NotBlank
     private String rg;

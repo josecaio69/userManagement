@@ -4,7 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ public class IndividualPerson extends Person {
     @CPF
     private String cpf;
     @Column(name = "birth_date")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
     @Column
     private String rg;
