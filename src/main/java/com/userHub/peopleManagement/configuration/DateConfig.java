@@ -1,6 +1,5 @@
 package com.userHub.peopleManagement.configuration;
 
-import ch.qos.logback.core.util.StringUtil;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
+import java.util.Objects;
 
 @Configuration
 public class DateConfig {
@@ -17,7 +17,7 @@ public class DateConfig {
     @Bean
     public Formatter<LocalDate> localDateFormatter() {
         return new Formatter<>() {
-            public static final String DATE_FORMATED = "dd/MM/yyyy";
+            private static final String DATE_FORMATED = "dd/MM/yyyy";
             private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMATED);
 
             @Override
@@ -34,7 +34,7 @@ public class DateConfig {
 
             @Override
             public String print(LocalDate date, Locale locale) {
-                return formatter.format(date);
+                return formatter.format(Objects.requireNonNull(date));
             }
         };
     }

@@ -1,5 +1,6 @@
 package com.userHub.peopleManagement.service.impl;
 
+import com.userHub.peopleManagement.Exception.PersonNotFoundException;
 import com.userHub.peopleManagement.dao.IndividualPersonRepository;
 import com.userHub.peopleManagement.dao.LegalPersonRepository;
 import com.userHub.peopleManagement.dto.IndividualPersonDTO;
@@ -8,9 +9,7 @@ import com.userHub.peopleManagement.model.Person;
 import com.userHub.peopleManagement.service.IndividualPersonService;
 import com.userHub.peopleManagement.utils.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -18,6 +17,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class DefaultIndividualPersonService implements IndividualPersonService {
+    private static final String CPF = "CPF";
     private final IndividualPersonRepository individualPersonRepository;
     private final PersonMapper personMapper;
 
@@ -28,29 +28,28 @@ public class DefaultIndividualPersonService implements IndividualPersonService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Person createIndividualPerson(IndividualPersonDTO person) {
+    public Person createOrUpdateIndividualPerson(IndividualPersonDTO person) {
         IndividualPerson personModel = getPersonMapper().individualPersonToEntity(person);
+
+        Optional<IndividualPerson> individualPersonToUpdate = getIndividualPersonRepository().findByCpf(Optional.ofNullable(person.getCpf()).orElse(""));
+
+        individualPersonToUpdate.ifPresent(legalPerson -> personModel.setId(legalPerson.getId()));
+
         return getIndividualPersonRepository().save(personModel);
     }
 
     @Override
     public Person searchIndividualPersonById(Long id) {
-        Optional<IndividualPerson> individualPerson = getIndividualPersonRepository().findById(id);
-
-        return individualPerson.orElse(null);
+        return getIndividualPersonRepository()
+                .findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
     @Override
     public Person searchIndividualPersonByCpf(String cpf) {
-        Optional<IndividualPerson> individualPerson = getIndividualPersonRepository().findByCpf(cpf);
-
-        return individualPerson.orElse(null);
-    }
-
-    @Override
-    public Person updateIndividualPerson(IndividualPersonDTO person) {
-        return this.createIndividualPerson(person);
+        return getIndividualPersonRepository()
+                .findByCpf(cpf)
+                .orElseThrow(() -> new PersonNotFoundException(CPF, cpf));
     }
 
     @Override

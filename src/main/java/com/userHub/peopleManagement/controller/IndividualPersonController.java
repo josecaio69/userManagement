@@ -23,7 +23,7 @@ public class IndividualPersonController {
 
     @PostMapping
     public IndividualPersonDTO createNewIndividualPerson(@RequestBody IndividualPersonDTO personDTO){
-        return this.personMapper.individualPersonToDto((IndividualPerson) personService.createIndividualPerson(personDTO));
+        return this.personMapper.individualPersonToDto((IndividualPerson) personService.createOrUpdateIndividualPerson(personDTO));
     }
 
     @GetMapping(value = "/cpf/{cpf}")
@@ -38,7 +38,7 @@ public class IndividualPersonController {
 
     @PutMapping
     public IndividualPersonDTO updateIndividualPerson(@RequestBody IndividualPersonDTO personDTO){
-        return this.personMapper.individualPersonToDto((IndividualPerson) personService.updateIndividualPerson(personDTO));
+        return this.personMapper.individualPersonToDto((IndividualPerson) personService.createOrUpdateIndividualPerson(personDTO));
     }
 
     @DeleteMapping
