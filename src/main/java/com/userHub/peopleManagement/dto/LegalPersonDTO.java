@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 public class LegalPersonDTO extends PersonDTO{
-
     @NotBlank
     @Email
     private String email;

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -38,7 +39,7 @@ public class DefaultLegalPersonService implements LegalPersonService {
     }
 
     @Override
-    public Person searchLegalPersonById(Long id) {
+    public Person searchLegalPersonById(UUID id) {
         return getLegalPersonRepository()
                 .findById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
@@ -52,7 +53,7 @@ public class DefaultLegalPersonService implements LegalPersonService {
     }
 
     @Override
-    public void removeLegalPersonPersonById(Long id) {
+    public void removeLegalPersonPersonById(UUID id) {
         getLegalPersonRepository().deleteById(id);
     }
 

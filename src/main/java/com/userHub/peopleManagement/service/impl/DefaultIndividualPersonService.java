@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -39,7 +40,7 @@ public class DefaultIndividualPersonService implements IndividualPersonService {
     }
 
     @Override
-    public Person searchIndividualPersonById(Long id) {
+    public Person searchIndividualPersonById(UUID id) {
         return getIndividualPersonRepository()
                 .findById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
@@ -53,7 +54,7 @@ public class DefaultIndividualPersonService implements IndividualPersonService {
     }
 
     @Override
-    public void removeIndividualPerson(Long id) {
+    public void removeIndividualPerson(UUID id) {
         getIndividualPersonRepository().deleteById(id);
     }
 

@@ -1,5 +1,7 @@
 package com.userHub.peopleManagement.Exception;
 
+import java.util.UUID;
+
 public class PersonNotFoundException  extends RuntimeException{
     private final String documentType;
     private final String documentValue;
@@ -7,7 +9,7 @@ public class PersonNotFoundException  extends RuntimeException{
     private static final String ID = "ID";
     private static final String PERSON_NOT_FOUND_MESSAGE = "Person not found with";
 
-    public PersonNotFoundException(Long id) {
+    public PersonNotFoundException(UUID id) {
         super(String.format(PERSON_NOT_FOUND_MESSAGE +" " + ID +" %d", id));
         this.documentType = ID;
         this.documentValue = String.valueOf(id);

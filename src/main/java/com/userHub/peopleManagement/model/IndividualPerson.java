@@ -3,8 +3,6 @@ package com.userHub.peopleManagement.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,7 +12,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "individual_person")
 public class IndividualPerson extends Person {
-    @Column
+    @Column(unique = true)
     @CPF
     private String cpf;
     @Column(name = "birth_date")

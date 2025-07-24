@@ -12,6 +12,8 @@ import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Tag(name = "Legal Person", description = "Management of legal entities")
 @RestController
 @RequestMapping(value = "/legalPerson")
@@ -45,7 +47,7 @@ public class LegalPersonController {
     @Operation(summary = "Search for Legal Entity by ID")
     @GetMapping(value = "/id/{id}")
     public LegalPersonDTO getLegalPersonById(@PathVariable
-                                             @Schema(description = "Company ID for carrying out the search") Long id) {
+                                             @Schema(description = "Company ID for carrying out the search") UUID id) {
         return this.personMapper.legalPersonToDto((LegalPerson) legalPersonService.searchLegalPersonById(id));
     }
 
@@ -59,7 +61,7 @@ public class LegalPersonController {
     @Operation(summary = "Remove a Legal Entity by its ID")
     @DeleteMapping
     public void deleteLegalPerson(@RequestBody
-                                  @Schema(description = "Company ID for deletion") Long id) {
+                                  @Schema(description = "Company ID for deletion") UUID id) {
         this.legalPersonService.removeLegalPersonPersonById(id);
     }
 }

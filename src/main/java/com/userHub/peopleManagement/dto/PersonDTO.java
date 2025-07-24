@@ -1,17 +1,14 @@
 package com.userHub.peopleManagement.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
+
 
 public abstract class PersonDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @NotBlank
+    private UUID id;
     @NotBlank
     private String name;
     @Email
@@ -20,11 +17,11 @@ public abstract class PersonDTO {
     @NotBlank
     private String phone;
 
-    public Long getId() {
+    public @NotBlank UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(@NotBlank UUID id) {
         this.id = id;
     }
 

@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "legal_person")
 public class LegalPerson extends Person {
-    @Column
     @CNPJ
+    @Column(unique = true)
     private String cnpj;
     @Column(name = "company_name")
     private String companyName;

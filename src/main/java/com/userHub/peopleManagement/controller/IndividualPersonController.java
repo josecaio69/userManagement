@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Tag(name = "Individual Person", description = "Management of Individuals")
 @RestController
 @RequestMapping(value = "/individualPerson")
@@ -41,7 +43,7 @@ public class IndividualPersonController {
     @Operation(summary = "Search for Individual Person by ID")
     @GetMapping(value = "/id/{id}")
     public IndividualPersonDTO getIndividualPersonById(@PathVariable
-                                                       @Schema(description = "ID of the person to carry out the search") Long id) {
+                                                       @Schema(description = "ID of the person to carry out the search") UUID id) {
         return this.personMapper.individualPersonToDto((IndividualPerson) personService.searchIndividualPersonById(id));
     }
 
@@ -54,7 +56,7 @@ public class IndividualPersonController {
 
     @Operation(summary = "Remove a Individual Person by its ID")
     @DeleteMapping
-    public void deleteIndividualPerson(@RequestBody Long id) {
+    public void deleteIndividualPerson(@RequestBody UUID id) {
         this.personService.removeIndividualPerson(id);
     }
 }

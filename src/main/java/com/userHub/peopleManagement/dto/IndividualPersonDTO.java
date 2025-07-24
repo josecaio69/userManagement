@@ -2,6 +2,7 @@ package com.userHub.peopleManagement.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Column;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
