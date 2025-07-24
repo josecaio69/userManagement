@@ -4,16 +4,19 @@ import com.userHub.peopleManagement.dao.AdminRepository;
 import com.userHub.peopleManagement.model.Administrator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AdminInitializer implements CommandLineRunner {
-
     private static final Logger logger = LoggerFactory.getLogger(AdminInitializer.class);
-    private static final String DEFAULT_ADMIN_USERNAME = "admin";
-    private static final String DEFAULT_ADMIN_PASSWORD = "admin123";
+
+    @Value("${spring.user.admin.userName}")
+    private String defaultUsernameAdmin;
+    @Value("${spring.user.admin.password}")
+    private String defaultPasswordAdmin;
 
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
@@ -29,20 +32,43 @@ public class AdminInitializer implements CommandLineRunner {
         try {
             initializeAdminAccount();
         } catch (Exception e) {
-            logger.error("Falha ao inicializar conta de administrador", e);
+            logger.error("Failed to Initialize ADMIN Account.", e);
         }
     }
 
     private void initializeAdminAccount() {
-        if (!adminRepository.existsByUserName(DEFAULT_ADMIN_USERNAME)) {
+        if (!getAdminRepository().existsByUserName(getDefaultUsernameAdmin())) {
             Administrator admin = new Administrator();
-            admin.setUserName(DEFAULT_ADMIN_USERNAME);
-            admin.setPassword(passwordEncoder.encode(DEFAULT_ADMIN_PASSWORD));
+            admin.setUserName(getDefaultUsernameAdmin());
+            admin.setPassword(getPasswordEncoder().encode(getDefaultPasswordAdmin()));
             admin.setRole(Role.ADMIN);
 
-            adminRepository.save(admin);
-            logger.info("Conta de administrador criada com sucesso");
+            getAdminRepository().save(admin);
+            logger.info("ADMIN account created successfully.");
         }
     }
 
+    public String getDefaultUsernameAdmin() {
+        return defaultUsernameAdmin;
+    }
+
+    public void setDefaultUsernameAdmin(String defaultUsernameAdmin) {
+        this.defaultUsernameAdmin = defaultUsernameAdmin;
+    }
+
+    public String getDefaultPasswordAdmin() {
+        return defaultPasswordAdmin;
+    }
+
+    public void setDefaultPasswordAdmin(String defaultPasswordAdmin) {
+        this.defaultPasswordAdmin = defaultPasswordAdmin;
+    }
+
+    public AdminRepository getAdminRepository() {
+        return adminRepository;
+    }
+
+    public PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
 }

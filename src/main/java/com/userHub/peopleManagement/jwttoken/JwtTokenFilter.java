@@ -1,10 +1,11 @@
-package com.userHub.peopleManagement.jwttoken.filter;
+package com.userHub.peopleManagement.jwttoken;
 
 import com.userHub.peopleManagement.jwttoken.service.DefaultJwtTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final DefaultJwtTokenService jwtTokenService;
     private final UserDetailsService userDetailsService;
+    @Value("${jwt.token.prefix}")
+    private String prefix;
+    @Value("${jwt.header.string}")
+    private String header;
 
     public JwtTokenFilter(DefaultJwtTokenService jwtTokenService, UserDetailsService userDetailsService) {
         this.jwtTokenService = jwtTokenService;
@@ -29,9 +34,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7);
+        String authorizationHeader = request.getHeader(getHeader());
+        if (authorizationHeader != null && authorizationHeader.startsWith(getPrefix())) {
+            String token = authorizationHeader.replace(getPrefix(), "");
             String username = jwtTokenService.extractUsername(token);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -49,5 +54,21 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 }

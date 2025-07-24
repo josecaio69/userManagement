@@ -21,6 +21,8 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    private static final String BEARER = "Bearer";
+
     private final AuthenticationManager authenticationManager;
     private final DefaultJwtTokenService jwtTokenService;
 
@@ -43,15 +45,15 @@ public class AuthController {
             String token = jwtTokenService.generateToken(authentication);
 
             return ResponseEntity.ok()
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                    .header(HttpHeaders.AUTHORIZATION, BEARER + token)
                     .body(Map.of(
                             "token", token,
-                            "type", "Bearer"
+                            "type", BEARER
                     ));
 
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "Credenciais inválidas"));
+                    .body(Map.of("error", "Invalid Credentials."));
         }
     }
 }
