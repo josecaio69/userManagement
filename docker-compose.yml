@@ -1,0 +1,39 @@
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/bd_users?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: caio
+      SPRING_DATASOURCE_PASSWORD: Mysql@2025
+    secrets:
+      - db_password
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE: bd_users
+      MYSQL_USER: caio
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    ports:
+      - "3307:3306"  # Porta alterada aqui
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    secrets:
+      - db_root_password
+      - db_password
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  db_root_password:
+    file: ./secrets/db_root_password.txt
